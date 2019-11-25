@@ -72,13 +72,13 @@ public class Prueba {
                 String country = (String) jsonObject.get("Country");
                 String poster = (String) jsonObject.get("Poster");
                 String tipo = (String) jsonObject.get("Type");
+                String rating = (String) jsonObject.get("imdbRating");
 
-                //JSONArray ratingsArray = (JSONArray) jsonObject.get("Ratings");
+//                JSONArray ratingsArray = (JSONArray) jsonObject.get("Ratings");
 //                for (Object o : ratingsArray) {
+////                    if(o.equals("imdbRating"))
 //                    System.out.println("Ratings: " + o);
 //                }
-
-                String rating = "9/10";
                 if (!poster.equals("N/A"))
                     guardarPoster(poster, title);
                 if (tipo.equals("series")) {

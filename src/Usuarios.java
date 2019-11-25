@@ -58,13 +58,13 @@ public class Usuarios {
         }
         if(state){
             listaUsuariosIngresados.add(usuarioNuevo);
-            ingresarUsuario(listaUsuariosIngresados);
+            guardarUsuariosCSV(listaUsuariosIngresados);
             JOptionPane.showMessageDialog(null, "Usuario ingresado");
         }
     }
 
-    public void ingresarUsuario(ArrayList<Usuarios> lista){
-        String salidaArchivo = "src\\Usuarios.csv";
+    public void guardarUsuariosCSV(ArrayList<Usuarios> lista){
+        String salidaArchivo = "src\\CSV\\Usuarios.csv";
         boolean exite = new File(salidaArchivo).exists();
         String [] datos = {"Usuario", "Contrasena"};
         if (exite){
@@ -75,8 +75,7 @@ public class Usuarios {
             CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
             salidaCsv.writeRecord(datos);
             for (Usuarios a : lista ){
-                String[] usuarioArray = crearArreglo(a);
-                salidaCsv.writeRecord(usuarioArray);
+                salidaCsv.writeRecord(new String[] {a.getNombreUsuario(), a.getContrasenna()});
             }
             salidaCsv.close();
         } catch (IOException e) {
@@ -84,15 +83,10 @@ public class Usuarios {
         }
     }
 
-    public String[] crearArreglo(Usuarios a){
-        String[] arreglo = {a.getNombreUsuario(), a.getContrasenna()};
-        return arreglo;
-    }
-
     public ArrayList cargarUsuarios(){
         ArrayList<Usuarios> usuarios = new ArrayList<>();
         try{
-            CsvReader leeUsuario = new CsvReader("src\\Usuarios.csv");
+            CsvReader leeUsuario = new CsvReader("src\\CSV\\Usuarios.csv");
             String[] next;
             leeUsuario.readHeaders();
             while(leeUsuario.readRecord()){
@@ -117,6 +111,7 @@ public class Usuarios {
             if (a.getNombreUsuario().equals(nombreUsuario) & a.getContrasenna().equals(pass))
                 state = true;
             else
+                JOptionPane.showMessageDialog(null, "Algo anda mal, revise los datos ingresados!");
                 state = false;
         }
         return state;
