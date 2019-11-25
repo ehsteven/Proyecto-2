@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+//        Usuarios user = new Usuarios("Esteven11", "m");
+//        boolean a = user.validarIngreso(user.getNombreUsuario(), user.getContrasenna());
+//        user.registrarUsuario(user);
         IngresoSesion u = new IngresoSesion();
         u.setVisible(true);
 //        Pelicula p = new Pelicula();

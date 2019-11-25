@@ -111,7 +111,7 @@ public class Usuarios {
             if (a.getNombreUsuario().equals(nombreUsuario) & a.getContrasenna().equals(pass))
                 state = true;
             else
-                JOptionPane.showMessageDialog(null, "Algo anda mal, revise los datos ingresados!");
+                JOptionPane.showMessageDialog(null, "Datos ingresados incorrectos!");
                 state = false;
         }
         return state;
