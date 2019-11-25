@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 import com.csvreader.*;
 
-public class Prueba {
+public class BusquedaPelicula {
     private CrearJson c = new CrearJson();
     private GuardarHistorialCSV historial = new GuardarHistorialCSV();
 
-    public Prueba() {
+    public BusquedaPelicula() {
     }
 
     public void jsonPrueba(String nombre, String anno) throws IOException {
