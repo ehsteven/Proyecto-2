@@ -49,9 +49,8 @@ public class Pelicula extends AudioVisual {
     public ArrayList cargarHistorial() {
         ArrayList<AudioVisual> historial = new ArrayList<>();
         try{
-            CsvReader leePeliculaSerie = new CsvReader("src\\Peliculas.csv");
+            CsvReader leePeliculaSerie = new CsvReader("src\\CSV\\Peliculas.csv");
             leePeliculaSerie.setDelimiter(';');
-            String[] next;
             leePeliculaSerie.readHeaders();
             while(leePeliculaSerie.readRecord()){
                 String[] datos = leePeliculaSerie.getValues();
@@ -68,7 +67,7 @@ public class Pelicula extends AudioVisual {
                 String idioma = datos[10];
                 String pais = datos[11];
                 String poster = datos[12];
-                String calificacion = "calificacion";
+                String calificacion = datos[13];
                 historial.add(new Pelicula(nombre, genero, anno, clasificacion, fechaSalida, duracion, directores, escritores,
                         actores, trama, idioma, pais, poster, calificacion));
             }

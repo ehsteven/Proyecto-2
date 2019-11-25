@@ -6,8 +6,6 @@ public class Main {
 //        Usuarios user = new Usuarios("Esteven11", "m");
 //        boolean a = user.validarIngreso(user.getNombreUsuario(), user.getContrasenna());
 //        user.registrarUsuario(user);
-        IngresoSesion u = new IngresoSesion();
-        u.setVisible(true);
 //        Pelicula p = new Pelicula();
 //        p.cargarHistorial();
 //        Usuarios u = new Usuarios("Esteven11", "m");

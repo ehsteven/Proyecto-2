@@ -47,19 +47,20 @@ public class Usuarios {
         this.listaUsuariosIngresados = listaUsuariosIngresados;
     }
 
-    public void registrarUsuario(Usuarios usuarioNuevo){
+    public void registrarUsuario(Usuarios usuarioNuevo){  //registrarUsuario(new Usuario(name , pass))
         listaUsuariosIngresados = cargarUsuarios();
         boolean state = true;
         for (Usuarios a : listaUsuariosIngresados){
             if (a.getNombreUsuario().equals(usuarioNuevo.nombreUsuario)){
                 JOptionPane.showMessageDialog(null, "Nombre de usuario ya usado");
-                state = false; break;
+                state = false; break;}
+                if(usuarioNuevo.getContrasenna().length() < 8)
+                    JOptionPane.showMessageDialog(null, "La contraseña es muy corta!");
             }
-        }
         if(state){
             listaUsuariosIngresados.add(usuarioNuevo);
             guardarUsuariosCSV(listaUsuariosIngresados);
-            JOptionPane.showMessageDialog(null, "Usuario ingresado");
+            JOptionPane.showMessageDialog(null, "Usuario creado con éxito!");
         }
     }
 
