@@ -3,9 +3,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Usuarios u = new Usuarios("Esteven11", "m");
-        boolean a = u.validarIngreso(u.getNombreUsuario(), u.getContrasenna());
-        System.out.println(a);
+        Pelicula p = new Pelicula();
+        p.cargarHistorial();
+//        Usuarios u = new Usuarios("Esteven11", "m");
+//        boolean a = u.validarIngreso(u.getNombreUsuario(), u.getContrasenna());
+//        System.out.println(a);
 //        u.registrarUsuario(u);
 
 //        Prueba p = new Prueba();

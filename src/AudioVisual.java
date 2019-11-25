@@ -18,7 +18,7 @@ public abstract class AudioVisual {
     private ArrayList<AudioVisual> lista = new ArrayList<>();
 
     public abstract void guardarHistorialCSV(ArrayList<AudioVisual> peliculas);
-    public abstract void cargarHistorial();
+    public abstract ArrayList cargarHistorial();
 
     public AudioVisual(String nombre, String genero, String anno, String clasificacion, String fechaSalida, String duracion, String director, String escritor, String actor, String trama, String idioma, String pais, String poster, String calificacion) {
         this.nombre = nombre;

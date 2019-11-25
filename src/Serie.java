@@ -52,7 +52,7 @@ public class Serie extends AudioVisual{
     }
 
     @Override
-    public void cargarHistorial() {
-
+    public ArrayList cargarHistorial() {
+        return null;
     }
 }
