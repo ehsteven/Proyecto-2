@@ -49,7 +49,7 @@ public class BusquedaPelicula {
         }
     }
 
-    public void leerJson() throws MalformedURLException {
+    public AudioVisual leerJson() throws MalformedURLException {
         JSONParser parser = new JSONParser();
         try {
             Object obj =  parser.parse(new FileReader("Json.json"));
@@ -73,12 +73,7 @@ public class BusquedaPelicula {
                 String poster = (String) jsonObject.get("Poster");
                 String tipo = (String) jsonObject.get("Type");
                 String rating = (String) jsonObject.get("imdbRating");
-
-//                JSONArray ratingsArray = (JSONArray) jsonObject.get("Ratings");
-//                for (Object o : ratingsArray) {
-////                    if(o.equals("imdbRating"))
-//                    System.out.println("Ratings: " + o);
-//                }
+                Usuarios user  = new Usuarios("Esteven", "password");
                 if (!poster.equals("N/A"))
                     guardarPoster(poster, title);
                 if (tipo.equals("series")) {
@@ -86,15 +81,15 @@ public class BusquedaPelicula {
                     Serie serie = new Serie(title, genre, year, rated, released, runtime, director, writer, actors,
                             plot, language, country, poster, rating, temporadas);
                     historial.agregarALista(serie);
-                    serie.guardarHistorialCSV(historial.getListaBusqueda());
+                    historial.agregarFavorito(serie, user);
+                    return serie;
                 }else if (tipo.equals("movie")) {
                     Pelicula pelicula = new Pelicula(title, genre, year, rated, released, runtime, director, writer, actors,
                             plot, language, country, poster, rating);
                     historial.agregarALista(pelicula);
-                    pelicula.guardarHistorialCSV(historial.getListaBusqueda());
+                    historial.agregarFavorito(pelicula, user);
+                    return pelicula;
                 }
-                for(AudioVisual a : historial.getListaBusqueda())   //se debe borrar
-                    System.out.println(a.toString());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -105,6 +100,7 @@ public class BusquedaPelicula {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 
     public void guardarPoster(String poster, String nombre) throws IOException  {

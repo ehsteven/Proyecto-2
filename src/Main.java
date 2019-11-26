@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
 //        Usuarios user = new Usuarios("Esteven11", "m");
 //        boolean a = user.validarIngreso(user.getNombreUsuario(), user.getContrasenna());
 //        user.registrarUsuario(user);
@@ -13,14 +14,14 @@ public class Main {
 //        System.out.println(a);
 //        u.registrarUsuario(u);
 
-//        BusquedaPelicula p = new BusquedaPelicula();
-//        while (true) {
-//            Scanner sn = new Scanner(System.in);
-//            System.out.print("Nombre: ");
-//            String nombre = sn.nextLine();
-//            System.out.print("Año: ");
-//            String anno = sn.nextLine();
-//            p.jsonPrueba(nombre, anno);
-//        }
+        BusquedaPelicula p = new BusquedaPelicula();
+        while (true) {
+            Scanner sn = new Scanner(System.in);
+            System.out.print("Nombre: ");
+            String nombre = sn.nextLine();
+            System.out.print("Año: ");
+            String anno = sn.nextLine();
+            p.jsonPrueba(nombre, anno);
+        }
     }
 }
