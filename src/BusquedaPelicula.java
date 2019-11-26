@@ -73,7 +73,7 @@ public class BusquedaPelicula {
                 String poster = (String) jsonObject.get("Poster");
                 String tipo = (String) jsonObject.get("Type");
                 String rating = (String) jsonObject.get("imdbRating");
-                Usuarios user  = new Usuarios("Esteven", "password");
+                //Usuarios user  = new Usuarios("Fernandez", "password");
                 if (!poster.equals("N/A"))
                     guardarPoster(poster, title);
                 if (tipo.equals("series")) {
@@ -81,13 +81,12 @@ public class BusquedaPelicula {
                     Serie serie = new Serie(title, genre, year, rated, released, runtime, director, writer, actors,
                             plot, language, country, poster, rating, temporadas);
                     historial.agregarALista(serie);
-                    historial.agregarFavorito(serie, user);
                     return serie;
                 }else if (tipo.equals("movie")) {
                     Pelicula pelicula = new Pelicula(title, genre, year, rated, released, runtime, director, writer, actors,
                             plot, language, country, poster, rating);
                     historial.agregarALista(pelicula);
-                    historial.agregarFavorito(pelicula, user);
+                    //historial.agregarFavorito(pelicula, user);
                     return pelicula;
                 }
             }
@@ -111,6 +110,7 @@ public class BusquedaPelicula {
         byte[] b = new byte[2048];
         int len;
         while ((len = is.read(b)) != -1){
+
             os.write(b,0,len);
         }
         is.close();

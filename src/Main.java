@@ -15,6 +15,8 @@ public class Main {
 //        u.registrarUsuario(u);
 
         BusquedaPelicula p = new BusquedaPelicula();
+        GuardarHistorialCSV g = new GuardarHistorialCSV();
+        Usuarios user = new Usuarios("fernandez", "pass");
         while (true) {
             Scanner sn = new Scanner(System.in);
             System.out.print("Nombre: ");
@@ -22,6 +24,9 @@ public class Main {
             System.out.print("Año: ");
             String anno = sn.nextLine();
             p.jsonPrueba(nombre, anno);
+            AudioVisual peli = p.leerJson();
+            g.eliminarFavorito(peli, user);
+            //g.agregarFavorito(peli, user);
         }
     }
 }

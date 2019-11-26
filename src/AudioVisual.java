@@ -19,6 +19,7 @@ public abstract class AudioVisual {
 
     public abstract void guardarHistorialCSV(AudioVisual audioVisual, String nombre);
     public abstract ArrayList cargarHistorial(String nombre);
+    public abstract void eliminarFav(AudioVisual pelicula, String user);
 
     public AudioVisual(String nombre, String genero, String anno, String clasificacion, String fechaSalida, String duracion, String director, String escritor, String actor, String trama, String idioma, String pais, String poster, String calificacion) {
         this.nombre = nombre;
@@ -168,7 +169,6 @@ public abstract class AudioVisual {
                 ", clasificacion='" + clasificacion + '\'' +
                 ", fechaSalida='" + fechaSalida + '\'' +
                 ", duracion='" + duracion + '\'' +
-                ", director='" + director + '\'' +
                 ", escritor='" + escritor + '\'' +
                 ", actor='" + actor + '\'' +
                 ", trama='" + trama + '\'' +

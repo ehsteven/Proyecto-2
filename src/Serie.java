@@ -16,6 +16,9 @@ public class Serie extends AudioVisual{
         this.temporada = temporada;
     }
 
+    public Serie(String nombre, String anno) {
+    }
+
     public String getTemporada() {
         return temporada;
     }
@@ -27,21 +30,23 @@ public class Serie extends AudioVisual{
     @Override
     public void guardarHistorialCSV(AudioVisual audioVisual, String nombre) {
         ArrayList<AudioVisual> listaPeliculas = cargarHistorial(nombre);
-        if (listaPeliculas!= null){
-            String salidaArchivo = "src\\historial_"+nombre+".csv";
+        if (listaPeliculas != null) {
+            String salidaArchivo = "src\\historial_" + nombre + ".csv";
             boolean exite = new File(salidaArchivo).exists();
-            String [] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
                     "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
-            if (exite){
+            if (exite) {
                 File archivoPelicula = new File(salidaArchivo);
                 archivoPelicula.delete();
             }
-            try{
+            try {
                 CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
                 salidaCsv.writeRecord(datos);
-                for (AudioVisual a : listaPeliculas ){
-                    String[] peliculaArray = crearArreglo(a);
-                    salidaCsv.writeRecord(peliculaArray);
+                for (AudioVisual a : listaPeliculas) {
+                    if(!a.getNombre().equals(audioVisual.getNombre())){
+                        String[] peliculaArray = crearArreglo(a);
+                        salidaCsv.writeRecord(peliculaArray);
+                    }
                 }
                 String[] pelicula = crearArreglo(audioVisual);
                 salidaCsv.writeRecord(pelicula);
@@ -49,16 +54,16 @@ public class Serie extends AudioVisual{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
-            String salidaArchivo = "src\\historial_"+nombre+".csv";
+        } else {
+            String salidaArchivo = "src\\historial_" + nombre + ".csv";
             boolean exite = new File(salidaArchivo).exists();
-            String [] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
                     "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
-            if (exite){
+            if (exite) {
                 File archivoPelicula = new File(salidaArchivo);
                 archivoPelicula.delete();
             }
-            try{
+            try {
                 CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
                 salidaCsv.writeRecord(datos);
                 String[] pelicula = crearArreglo(audioVisual);
@@ -68,22 +73,23 @@ public class Serie extends AudioVisual{
                 e.printStackTrace();
             }
         }
+
     }
 
-    public String[] crearArreglo(AudioVisual a){
+    public String[] crearArreglo(AudioVisual a) {
         String[] arreglo = {a.getNombre(), a.getGenero(), a.getAnno(), a.getClasificacion(), a.getFechaSalida(), a.getDuracion(),
-                a.getDirector(),a.getEscritor(), a.getActor(), a.getTrama(), a.getIdioma(), a.getPais(), a.getPoster()};
+                a.getDirector(), a.getEscritor(), a.getActor(), a.getTrama(), a.getIdioma(), a.getPais(), a.getPoster()};
         return arreglo;
     }
 
     @Override
     public ArrayList cargarHistorial(String nombreArc) {
         ArrayList<AudioVisual> historial = new ArrayList<>();
-        try{
-            CsvReader leePeliculaSerie = new CsvReader("src\\historial_"+nombreArc+".csv");
+        try {
+            CsvReader leePeliculaSerie = new CsvReader("src\\historial_" + nombreArc + ".csv");
             leePeliculaSerie.setDelimiter(';');
             leePeliculaSerie.readHeaders();
-            while(leePeliculaSerie.readRecord()){
+            while (leePeliculaSerie.readRecord()) {
                 String[] datos = leePeliculaSerie.getValues();
                 String nombre = datos[0];
                 String genero = datos[1];
@@ -99,8 +105,8 @@ public class Serie extends AudioVisual{
                 String pais = datos[11];
                 String poster = datos[12];
                 //String calificacion = datos[13];
-                historial.add(new Pelicula(nombre, genero, anno, clasificacion, fechaSalida, duracion, directores, escritores,
-                        actores, trama, idioma, pais, poster, null));
+                historial.add(new Serie(nombre, genero, anno, clasificacion, fechaSalida, duracion, directores, escritores,
+                        actores, trama, idioma, pais, poster, null, null));
             }
             leePeliculaSerie.close();
             return historial;
@@ -111,4 +117,69 @@ public class Serie extends AudioVisual{
         }
         return null;
     }
+
+    @Override
+    public void eliminarFav(AudioVisual nombreFav, String nombreUser) {
+        ArrayList<AudioVisual> historial = cargarHistorial(nombreUser);
+        ArrayList<AudioVisual> historialNuevo = new ArrayList<>();
+        for(AudioVisual a : historial){
+            if(!nombreFav.getNombre().equals(a.getNombre()))
+                historialNuevo.add(a);
+        }
+        if (historialNuevo != null) {
+            String salidaArchivo = "src\\historial_" + nombreUser + ".csv";
+            boolean exite = new File(salidaArchivo).exists();
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+                    "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
+            if (exite) {
+                File archivoPelicula = new File(salidaArchivo);
+                archivoPelicula.delete();
+            }
+            try {
+                CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
+                salidaCsv.writeRecord(datos);
+                for (AudioVisual a : historialNuevo) {
+                    String[] peliculaArray = crearArreglo(a);
+                    salidaCsv.writeRecord(peliculaArray);
+                }
+                salidaCsv.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
+
+/*
+        BusquedaPelicula busca = new BusquedaPelicula();
+        GuardarHistorialCSV guarda = new GuardarHistorialCSV();
+        if(jCheckBox1.isSelected()){
+            String info = jTextPaneInformacion.getText();
+            String[] infoCompleta = info.split("\n");
+            String[] n1 = infoCompleta[0].split(" ");
+            String[] a1 = infoCompleta[2].split(" ");
+            String nombre = n1[1];
+            String anno = a1[1];
+
+            try {
+                busca.jsonPrueba(nombre, anno);
+                AudioVisual visual = busca.leerJson();
+                guarda.agregarFavorito(visual, new Usuarios(getUsuario(), getPass()));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            //Accion de quitar de favoritos
+            busca.jsonPrueba(nombre, anno);
+            AudioVisual visual = busca.leerJson();
+            guarda.eliminarFavorito(visual, new Usuarios(getUsuario(), getPass()));
+        }
+ */

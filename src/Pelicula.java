@@ -14,27 +14,29 @@ public class Pelicula extends AudioVisual {
         super(nombre, genero, anno, clasificacion, fechaSalida, duracion, director, escritor, actor, trama, idioma, pais, poster, calificacion);
     }
 
-    public Pelicula() {
+    public Pelicula(String nombre, String anno) {
     }
 
     @Override
     public void guardarHistorialCSV(AudioVisual audioVisual, String nombre) {
         ArrayList<AudioVisual> listaPeliculas = cargarHistorial(nombre);
-        if (listaPeliculas!= null){
-            String salidaArchivo = "src\\historial_"+nombre+".csv";
+        if (listaPeliculas != null) {
+            String salidaArchivo = "src\\historial_" + nombre + ".csv";
             boolean exite = new File(salidaArchivo).exists();
-            String [] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
                     "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
-            if (exite){
+            if (exite) {
                 File archivoPelicula = new File(salidaArchivo);
                 archivoPelicula.delete();
             }
-            try{
+            try {
                 CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
                 salidaCsv.writeRecord(datos);
-                for (AudioVisual a : listaPeliculas ){
-                    String[] peliculaArray = crearArreglo(a);
-                    salidaCsv.writeRecord(peliculaArray);
+                for (AudioVisual a : listaPeliculas) {
+                    if(!a.getNombre().equals(audioVisual.getNombre())){
+                        String[] peliculaArray = crearArreglo(a);
+                        salidaCsv.writeRecord(peliculaArray);
+                    }
                 }
                 String[] pelicula = crearArreglo(audioVisual);
                 salidaCsv.writeRecord(pelicula);
@@ -42,16 +44,16 @@ public class Pelicula extends AudioVisual {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
-            String salidaArchivo = "src\\historial_"+nombre+".csv";
+        } else {
+            String salidaArchivo = "src\\historial_" + nombre + ".csv";
             boolean exite = new File(salidaArchivo).exists();
-            String [] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
                     "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
-            if (exite){
+            if (exite) {
                 File archivoPelicula = new File(salidaArchivo);
                 archivoPelicula.delete();
             }
-            try{
+            try {
                 CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
                 salidaCsv.writeRecord(datos);
                 String[] pelicula = crearArreglo(audioVisual);
@@ -61,22 +63,23 @@ public class Pelicula extends AudioVisual {
                 e.printStackTrace();
             }
         }
+
     }
 
-    public String[] crearArreglo(AudioVisual a){
+    public String[] crearArreglo(AudioVisual a) {
         String[] arreglo = {a.getNombre(), a.getGenero(), a.getAnno(), a.getClasificacion(), a.getFechaSalida(), a.getDuracion(),
-                a.getDirector(),a.getEscritor(), a.getActor(), a.getTrama(), a.getIdioma(), a.getPais(), a.getPoster()};
+                a.getDirector(), a.getEscritor(), a.getActor(), a.getTrama(), a.getIdioma(), a.getPais(), a.getPoster()};
         return arreglo;
     }
 
     @Override
     public ArrayList cargarHistorial(String nombreArc) {
         ArrayList<AudioVisual> historial = new ArrayList<>();
-        try{
-            CsvReader leePeliculaSerie = new CsvReader("src\\historial_"+nombreArc+".csv");
+        try {
+            CsvReader leePeliculaSerie = new CsvReader("src\\historial_" + nombreArc + ".csv");
             leePeliculaSerie.setDelimiter(';');
             leePeliculaSerie.readHeaders();
-            while(leePeliculaSerie.readRecord()){
+            while (leePeliculaSerie.readRecord()) {
                 String[] datos = leePeliculaSerie.getValues();
                 String nombre = datos[0];
                 String genero = datos[1];
@@ -106,9 +109,39 @@ public class Pelicula extends AudioVisual {
     }
 
     @Override
+    public void eliminarFav(AudioVisual nombreFav, String nombreUser) {
+        ArrayList<AudioVisual> historial = cargarHistorial(nombreUser);
+        ArrayList<AudioVisual> historialNuevo = new ArrayList<>();
+        for(AudioVisual a : historial){
+            if(!nombreFav.getNombre().equals(a.getNombre())){
+                historialNuevo.add(a);
+            }
+        }
+        if (historialNuevo != null) {
+            String salidaArchivo = "src\\historial_" + nombreUser + ".csv";
+            boolean exite = new File(salidaArchivo).exists();
+            String[] datos = {"Nombre", "Genero", "Year", "Clasificacion", "Fecha de salida", "Duracion",
+                    "Directores", "Escritores", "Actores", "Trama", "Idioma", "Pais", "Poster", "Calificacion"};
+            if (exite) {
+                File archivoPelicula = new File(salidaArchivo);
+                archivoPelicula.delete();
+            }
+            try {
+                CsvWriter salidaCsv = new CsvWriter(new FileWriter(salidaArchivo, true), ';');
+                salidaCsv.writeRecord(datos);
+                for (AudioVisual a : historialNuevo) {
+                    String[] peliculaArray = crearArreglo(a);
+                    salidaCsv.writeRecord(peliculaArray);
+                }
+                salidaCsv.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         return super.toString();
     }
-
-
 }

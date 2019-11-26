@@ -39,8 +39,13 @@ public class GuardarHistorialCSV {
     //agarra datos del txt
     public ArrayList<String> cargarHistorial() throws IOException {
         ArrayList<String> historial =new ArrayList<>();
+        String ruta = "src\\Historial.txt";
+        File historialN = new File (ruta);
+        BufferedWriter bw;
         try{
-            File historialN = new File ("src\\Historial.txt");
+            if(!historialN.exists()){
+                bw = new BufferedWriter(new FileWriter(historialN));
+            }
             FileReader fr = new FileReader (historialN);
             BufferedReader br = new BufferedReader(fr);
             String linea;
@@ -61,8 +66,8 @@ public class GuardarHistorialCSV {
         try{
             FileWriter fichero = null;
             PrintWriter pw = null;
-                fichero = new FileWriter("src\\Historial.txt");
-                pw = new PrintWriter(fichero);
+            fichero = new FileWriter("src\\Historial.txt");
+            pw = new PrintWriter(fichero);
                 for(String a: datos){
                     String[] datos_1 = a.split(",");
                     String nombre1 = datos_1[0];
@@ -81,8 +86,13 @@ public class GuardarHistorialCSV {
         return listaBusqueda;
     }
 
-    public void agregarFavorito(AudioVisual audioVisual, Usuarios user){//ArrayList<AudioVisual> listaPeliculasAudioVisual){
-        //ArrayList<AudioVisual> listaPelisAudioVisual = agregarListaPelis(audioVisual);
-        audioVisual.guardarHistorialCSV(audioVisual, user.getNombreUsuario());
+    public void agregarFavorito(AudioVisual pelicula, Usuarios user) throws IOException {
+        if(pelicula!= null)
+            pelicula.guardarHistorialCSV(pelicula, user.getNombreUsuario());
+        else
+            System.out.println("hubo un error");
+    }
+    public void eliminarFavorito(AudioVisual pelicula, Usuarios user){
+        pelicula.eliminarFav(pelicula, user.getNombreUsuario());
     }
 }
